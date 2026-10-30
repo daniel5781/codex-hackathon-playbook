@@ -42,7 +42,7 @@ class SetupTests(unittest.TestCase):
 
     def test_setup_preserves_task_and_is_repeatable(self):
         original = self.snapshot()
-        self.run_setup(self.task)
+        self.run_setup("--apply", self.task)
         for path, value in original.items():
             self.assertEqual(self.snapshot()[path], value)
         bundle = self.task / ".codex-playbook"
@@ -54,7 +54,7 @@ class SetupTests(unittest.TestCase):
         )
         self.assertIn(".codex-playbook/AGENTS.md", (self.task / "AGENTS.md").read_text())
         first = self.snapshot()
-        self.run_setup(self.task)
+        self.run_setup("--apply", self.task)
         self.assertEqual(first, self.snapshot())
 
     def test_check_writes_nothing(self):
@@ -62,17 +62,29 @@ class SetupTests(unittest.TestCase):
         self.run_setup("--check", self.task)
         self.assertEqual(before, self.snapshot())
 
+    def test_default_writes_nothing(self):
+        before = self.snapshot()
+        self.run_setup(self.task)
+        self.assertEqual(before, self.snapshot())
+
+    def test_invalid_modes_write_nothing(self):
+        before = self.snapshot()
+        for flags in (("--unknown",), ("--check", "--apply"), ("--apply", "--check")):
+            with self.subTest(flags=flags):
+                self.run_setup(*flags, self.task, success=False)
+                self.assertEqual(before, self.snapshot())
+
     def test_existing_agents_are_preserved(self):
         for name in ("AGENTS.md", "AGENTS.override.md"):
             (self.task / name).write_text("# Keep project-specific rules\n")
         before = self.snapshot()
-        self.run_setup(self.task)
+        self.run_setup("--apply", self.task)
         for name in ("AGENTS.md", "AGENTS.override.md"):
             self.assertEqual(before[name], self.snapshot()[name])
 
     def test_override_alone_does_not_create_root_agents(self):
         (self.task / "AGENTS.override.md").write_text("# Existing override\n")
-        self.run_setup(self.task)
+        self.run_setup("--apply", self.task)
         self.assertFalse((self.task / "AGENTS.md").exists())
 
     def test_conflicting_bundle_is_untouched(self):
@@ -80,7 +92,7 @@ class SetupTests(unittest.TestCase):
         bundle.mkdir()
         (bundle / "PLAYBOOK.md").write_text("custom work\n")
         before = self.snapshot()
-        self.run_setup(self.task, success=False)
+        self.run_setup("--apply", self.task, success=False)
         self.assertEqual(before, self.snapshot())
 
     def test_symlink_bundle_is_rejected(self):
@@ -88,7 +100,7 @@ class SetupTests(unittest.TestCase):
         outside.mkdir()
         (self.task / ".codex-playbook").symlink_to(outside, target_is_directory=True)
         before = self.snapshot()
-        self.run_setup(self.task, success=False)
+        self.run_setup("--apply", self.task, success=False)
         self.assertEqual(before, self.snapshot())
         self.assertEqual(list(outside.iterdir()), [])
 
@@ -99,14 +111,14 @@ class SetupTests(unittest.TestCase):
         outside.write_text("unchanged\n")
         (bundle / "AGENTS.md").symlink_to(outside)
         before = self.snapshot()
-        self.run_setup(self.task, success=False)
+        self.run_setup("--apply", self.task, success=False)
         self.assertEqual(before, self.snapshot())
         self.assertEqual(outside.read_text(), "unchanged\n")
 
     def test_missing_readme_is_rejected_without_writes(self):
         (self.task / "README.md").unlink()
         before = self.snapshot()
-        self.run_setup(self.task, success=False)
+        self.run_setup("--apply", self.task, success=False)
         self.assertEqual(before, self.snapshot())
 
     def test_invalid_targets_and_arguments_fail(self):

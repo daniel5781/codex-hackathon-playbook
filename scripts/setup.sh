@@ -1,17 +1,22 @@
 #!/usr/bin/env bash
-# 공개 범용 지침만 배치한다. 네트워크, 설치, Codex 설정, Git 작업은 하지 않는다.
+# 공개 범용 지침만 배치한다. 네트워크, 의존성 설치, Codex 설정, Git 작업은 하지 않는다.
 set -euo pipefail
 
 usage() {
-  printf '%s\n' '사용법: bash scripts/setup.sh [--check] /path/to/task' \
-    '  --check: 파일을 쓰지 않고 대상 경로와 충돌을 확인한다.'
+  printf '%s\n' '사용법: bash scripts/setup.sh [--check | --apply] /path/to/task' \
+    '  --check (기본): 파일을 쓰지 않고 예정 경로와 충돌을 확인한다.' \
+    '  --apply: 제출 규칙상 추가 파일이 허용됨을 확인한 뒤 지침을 배치한다.'
 }
 fail() { printf '중단: %s\n' "$*" >&2; exit 1; }
 present() { [ -e "$1" ] || [ -L "$1" ]; }
 
-check_only=false
-if [ "${1:-}" = '--help' ]; then usage; exit 0; fi
-if [ "${1:-}" = '--check' ]; then check_only=true; shift; fi
+check_only=true
+case "${1:-}" in
+  --help) usage; exit 0 ;;
+  --check) shift ;;
+  --apply) check_only=false; shift ;;
+  -*) usage >&2; exit 2 ;;
+esac
 [ "$#" -eq 1 ] || { usage >&2; exit 2; }
 [ -d "$1" ] || fail '대상 프로젝트 디렉터리가 없다.'
 
@@ -53,13 +58,16 @@ fi
 
 printf '대상 과제: %s\n' "$task_dir"
 printf '배치할 범용 문서: %s\n' "$bundle_dir"
+printf '  %s\n' "${names[@]}"
 if $create_bridge; then
   printf '%s\n' '루트 AGENTS.md: 새 연결 지침을 생성한다.'
 else
   printf '%s\n' '루트 지침: 기존 파일을 보존한다. 시작 프롬프트로 보조 문서를 명시해 읽는다.'
 fi
 if $check_only; then
-  printf '%s\n' '점검 완료. 파일을 변경하지 않았다.'
+  printf '%s\n' '점검 완료. 파일을 변경하지 않았다. 제출 규칙을 자동 검증한 결과는 아니다.' \
+    '추가 파일의 허용·수집 범위를 확인한 경우에만 --apply로 적용하라.'
+  printf '파일 배치 없이 참조할 지침: %s/AGENTS.md\n' "$source_dir"
   exit 0
 fi
 
@@ -79,17 +87,13 @@ if $create_bridge; then
 # 프로젝트 작업 지침
 
 - 과제의 공식 요구사항, README와 기존 디렉터리별 지침을 우선하라.
-- Computer Use를 절대 사용하지 마라. 브라우저·데스크톱 GUI를 도구로 조작하지 말고 파일·터미널·프로젝트 테스트로 작업하라. GUI 확인은 응시자가 직접 수행한다.
-- 기본 작업 규칙은 [.codex-playbook/AGENTS.md](.codex-playbook/AGENTS.md)를 읽어 적용하라.
-- 상세 절차는 [.codex-playbook/PLAYBOOK.md](.codex-playbook/PLAYBOOK.md)의 필요한 단계만 참조하라.
-- 대시보드·웹 UI 과제일 때만 [.codex-playbook/UI_ASSETS.md](.codex-playbook/UI_ASSETS.md)에 따라 선택적으로 UI 에셋을 재사용하라.
-- 실제 시험에서는 외부 전송과 Git Push를 하지 마라. 제공된 Codex·권한·운영 설정을 임의로 바꾸지 마라.
-- AI가 허용된 작업 단계에서만 구현·검증과 기록 정리를 수행하라. AI 금지 후속 서술형에서는 답안 생성·수정을 돕지 마라.
+- [.codex-playbook/AGENTS.md](.codex-playbook/AGENTS.md)의 최소 규칙을 읽어 적용하고 보조 문서는 필요한 때만 참조하라.
+- Computer Use를 절대 사용하지 마라.
 GUIDANCE
   )
 fi
 
-printf '\n%s\n' '세팅 완료. 아래 프롬프트를 현재 과제의 Codex에 입력하라.' \
-  '이미 실행 중인 Codex라면 새 파일을 명시적으로 읽게 하라. 새 세션에서도 적용 지침을 확인하라.'
+printf '\n지침 경로: %s/AGENTS.md\n' "$bundle_dir"
+printf '%s\n' '세팅 완료. 위 경로와 아래 요청을 과제의 Codex에 전달하라. 보조 문서는 필요할 때만 읽는다.'
 printf '\n'
 cat "$bundle_dir/START_PROMPT.txt"
