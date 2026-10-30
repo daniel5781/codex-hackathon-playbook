@@ -29,8 +29,8 @@ done
 $has_readme || fail 'README가 있는 실제 과제 루트를 지정하라. README를 임의로 생성하지 마라.'
 
 bundle_dir="$task_dir/.codex-playbook"
-sources=("$source_dir/AGENTS.md" "$source_dir/PLAYBOOK.md" "$source_dir/QUICKSTART.md" "$source_dir/prompts/start.txt")
-names=('AGENTS.md' 'PLAYBOOK.md' 'QUICKSTART.md' 'START_PROMPT.txt')
+sources=("$source_dir/AGENTS.md" "$source_dir/PLAYBOOK.md" "$source_dir/QUICKSTART.md" "$source_dir/UI_ASSETS.md" "$source_dir/prompts/start.txt")
+names=('AGENTS.md' 'PLAYBOOK.md' 'QUICKSTART.md' 'UI_ASSETS.md' 'START_PROMPT.txt')
 
 # 충돌을 먼저 검사하여 기존 파일을 덮어쓰지 않는다.
 [ ! -L "$bundle_dir" ] || fail '.codex-playbook이 심볼릭 링크다. 기존 경로를 보존하고 수동으로 확인하라.'
@@ -82,6 +82,7 @@ if $create_bridge; then
 - Computer Use를 절대 사용하지 마라. 브라우저·데스크톱 GUI를 도구로 조작하지 말고 파일·터미널·프로젝트 테스트로 작업하라. GUI 확인은 응시자가 직접 수행한다.
 - 기본 작업 규칙은 [.codex-playbook/AGENTS.md](.codex-playbook/AGENTS.md)를 읽어 적용하라.
 - 상세 절차는 [.codex-playbook/PLAYBOOK.md](.codex-playbook/PLAYBOOK.md)의 필요한 단계만 참조하라.
+- 대시보드·웹 UI 과제일 때만 [.codex-playbook/UI_ASSETS.md](.codex-playbook/UI_ASSETS.md)에 따라 선택적으로 UI 에셋을 재사용하라.
 - 실제 시험에서는 외부 전송과 Git Push를 하지 마라. 제공된 Codex·권한·운영 설정을 임의로 바꾸지 마라.
 - AI가 허용된 작업 단계에서만 구현·검증과 기록 정리를 수행하라. AI 금지 후속 서술형에서는 답안 생성·수정을 돕지 마라.
 GUIDANCE

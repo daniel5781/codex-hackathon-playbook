@@ -46,7 +46,7 @@ class SetupTests(unittest.TestCase):
         for path, value in original.items():
             self.assertEqual(self.snapshot()[path], value)
         bundle = self.task / ".codex-playbook"
-        for name in ("AGENTS.md", "PLAYBOOK.md", "QUICKSTART.md"):
+        for name in ("AGENTS.md", "PLAYBOOK.md", "QUICKSTART.md", "UI_ASSETS.md"):
             self.assertEqual((bundle / name).read_bytes(), (REPO / name).read_bytes())
         self.assertEqual(
             (bundle / "START_PROMPT.txt").read_bytes(),
