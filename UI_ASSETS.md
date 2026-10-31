@@ -16,6 +16,14 @@ UI 과제에서만 참조하고 [AGENTS.md](AGENTS.md)를 따르라. **필수 �
 
 다른 공개 에셋도 **호환성 / 필요한 기능 / 직접 구현 대비 시간·복잡도 / 수정·유지보수 / 라이선스**로 판단하라. 불명확하거나 비용이 크면 기존 컴포넌트 또는 작은 자체 구현을 선택하라.
 
+## 디자인 방향 참고(선택)
+
+색상·타이포그래피·간격·카드 스타일을 정할 때는 [getdesign.kr](https://www.getdesign.kr/)의 한국 서비스 디자인 카탈로그를 참고할 수 있다. 기존 디자인으로 충분하면 생략하라.
+
+- [색인](https://www.getdesign.kr/llms.txt)에서 필요한 항목 하나를 선택하고 `https://www.getdesign.kr/services/{slug}/DESIGN.md`를 HTTP·CLI로 가져와 필요한 절만 읽어라. 전체 카탈로그의 상세 문서를 읽거나 Skill·MCP를 자동 설치하지 마라.
+- 디자인 규칙을 현재 스택과 과제의 정보 구조에 맞게 적용하라. 참고 서비스의 문구·도메인 기능을 그대로 가져오거나 과제 자료를 사이트로 전송하지 마라.
+- 콘텐츠는 [CC BY 4.0](https://github.com/CaesiumY/ko-design-md/blob/main/LICENSE-CONTENT)이다. 재사용 시 저자(ChangSik Yoon / ko-design-md)·원문 URL·라이선스 링크·변경 여부를 기록하라. 로고·이미지·폰트는 별도 조건이므로 [브랜드 자산 안내](https://github.com/CaesiumY/ko-design-md/blob/main/NOTICE)와 원출처를 확인하라.
+
 ## 구현·검증
 
 - 전체 대시보드를 통째로 제출하지 말고 필요한 컴포넌트·차트만 재사용하라. 데이터 처리·비즈니스 로직·필터·검증은 과제에 맞게 구현하라.
