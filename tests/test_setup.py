@@ -1,5 +1,7 @@
 """Bootstrap checks that protect a task's existing files; no network or Codex calls."""
 from pathlib import Path
+import re
+import shutil
 import subprocess
 import tempfile
 import unittest
@@ -7,6 +9,7 @@ import unittest
 
 REPO = Path(__file__).resolve().parents[1]
 SCRIPT = REPO / "scripts" / "setup.sh"
+DOCUMENTS = ("AGENTS.md", "PLAYBOOK.md", "OPTIMIZATION.md", "QUICKSTART.md", "UI_ASSETS.md")
 
 
 class SetupTests(unittest.TestCase):
@@ -19,9 +22,9 @@ class SetupTests(unittest.TestCase):
         (self.task / "README.md").write_text("# Original task\nKeep this file.\n")
         (self.task / "answer.txt").write_text("existing solution\n")
 
-    def run_setup(self, *args, success=True):
+    def run_setup(self, *args, success=True, script=SCRIPT):
         result = subprocess.run(
-            ["bash", str(SCRIPT), *map(str, args)],
+            ["bash", str(script), *map(str, args)],
             text=True, capture_output=True, cwd=self.root,
         )
         if success:
@@ -46,7 +49,7 @@ class SetupTests(unittest.TestCase):
         for path, value in original.items():
             self.assertEqual(self.snapshot()[path], value)
         bundle = self.task / ".codex-playbook"
-        for name in ("AGENTS.md", "PLAYBOOK.md", "QUICKSTART.md", "UI_ASSETS.md"):
+        for name in DOCUMENTS:
             self.assertEqual((bundle / name).read_bytes(), (REPO / name).read_bytes())
         self.assertEqual(
             (bundle / "START_PROMPT.txt").read_bytes(),
@@ -56,6 +59,16 @@ class SetupTests(unittest.TestCase):
         first = self.snapshot()
         self.run_setup("--apply", self.task)
         self.assertEqual(first, self.snapshot())
+
+    def test_generated_bridge_links_resolve(self):
+        self.run_setup("--apply", self.task)
+        bridge = (self.task / "AGENTS.md").read_text()
+        links = re.findall(r"\[[^\]]+\]\(([^)]+)\)", bridge)
+        for name in ("AGENTS.md", "OPTIMIZATION.md", "UI_ASSETS.md"):
+            self.assertIn(f".codex-playbook/{name}", links)
+        for link in links:
+            with self.subTest(link=link):
+                self.assertTrue((self.task / link).is_file())
 
     def test_check_writes_nothing(self):
         before = self.snapshot()
@@ -94,6 +107,35 @@ class SetupTests(unittest.TestCase):
         before = self.snapshot()
         self.run_setup("--apply", self.task, success=False)
         self.assertEqual(before, self.snapshot())
+
+    def test_optimization_conflict_stops_before_any_write(self):
+        bundle = self.task / ".codex-playbook"
+        bundle.mkdir()
+        (bundle / "OPTIMIZATION.md").write_text("# Project-specific optimization rules\n")
+        before = self.snapshot()
+        for mode in ("--check", "--apply"):
+            with self.subTest(mode=mode):
+                result = self.run_setup(mode, self.task, success=False)
+                self.assertIn("OPTIMIZATION.md", result.stderr)
+                self.assertEqual(before, self.snapshot())
+
+    def test_missing_optimization_source_stops_before_any_write(self):
+        source = self.root / "incomplete-playbook"
+        (source / "scripts").mkdir(parents=True)
+        (source / "prompts").mkdir()
+        shutil.copy2(SCRIPT, source / "scripts" / "setup.sh")
+        for name in DOCUMENTS:
+            if name != "OPTIMIZATION.md":
+                shutil.copy2(REPO / name, source / name)
+        shutil.copy2(REPO / "prompts" / "start.txt", source / "prompts" / "start.txt")
+        before = self.snapshot()
+        for mode in ("--check", "--apply"):
+            with self.subTest(mode=mode):
+                result = self.run_setup(
+                    mode, self.task, success=False, script=source / "scripts" / "setup.sh",
+                )
+                self.assertIn("원본 문서 누락: OPTIMIZATION.md", result.stderr)
+                self.assertEqual(before, self.snapshot())
 
     def test_symlink_bundle_is_rejected(self):
         outside = self.root / "outside"

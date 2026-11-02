@@ -34,8 +34,8 @@ done
 $has_readme || fail 'README가 있는 실제 과제 루트를 지정하라. README를 임의로 생성하지 마라.'
 
 bundle_dir="$task_dir/.codex-playbook"
-sources=("$source_dir/AGENTS.md" "$source_dir/PLAYBOOK.md" "$source_dir/QUICKSTART.md" "$source_dir/UI_ASSETS.md" "$source_dir/prompts/start.txt")
-names=('AGENTS.md' 'PLAYBOOK.md' 'QUICKSTART.md' 'UI_ASSETS.md' 'START_PROMPT.txt')
+sources=("$source_dir/AGENTS.md" "$source_dir/PLAYBOOK.md" "$source_dir/OPTIMIZATION.md" "$source_dir/QUICKSTART.md" "$source_dir/UI_ASSETS.md" "$source_dir/prompts/start.txt")
+names=('AGENTS.md' 'PLAYBOOK.md' 'OPTIMIZATION.md' 'QUICKSTART.md' 'UI_ASSETS.md' 'START_PROMPT.txt')
 
 # 충돌을 먼저 검사하여 기존 파일을 덮어쓰지 않는다.
 [ ! -L "$bundle_dir" ] || fail '.codex-playbook이 심볼릭 링크다. 기존 경로를 보존하고 수동으로 확인하라.'
@@ -87,13 +87,15 @@ if $create_bridge; then
 # 프로젝트 작업 지침
 
 - 과제의 공식 요구사항, README와 기존 디렉터리별 지침을 우선하라.
-- [.codex-playbook/AGENTS.md](.codex-playbook/AGENTS.md)의 최소 규칙을 읽어 적용하고 보조 문서는 필요한 때만 참조하라.
+- [.codex-playbook/AGENTS.md](.codex-playbook/AGENTS.md)를 기본 지침으로 읽어라.
+- 최적화 과제는 [.codex-playbook/OPTIMIZATION.md](.codex-playbook/OPTIMIZATION.md), 웹 UI 과제는 [.codex-playbook/UI_ASSETS.md](.codex-playbook/UI_ASSETS.md)를 실제로 읽어라. 둘 다 해당하면 둘 다 읽고 무관한 문서는 생략하라.
+- 플레이북 문서의 상대경로는 `.codex-playbook/`을 기준으로 해석하라. UI 지침을 읽어도 외부 라이브러리 도입은 필수가 아니다.
 - Computer Use를 절대 사용하지 마라.
 GUIDANCE
   )
 fi
 
 printf '\n지침 경로: %s/AGENTS.md\n' "$bundle_dir"
-printf '%s\n' '세팅 완료. 위 경로와 아래 요청을 과제의 Codex에 전달하라. 보조 문서는 필요할 때만 읽는다.'
+printf '%s\n' '세팅 완료. 위 경로와 아래 요청을 과제의 Codex에 전달하라. AGENTS.md를 기본으로 최적화·웹 UI에 해당하는 문서는 실제로 읽고, 둘 다 해당하면 둘 다 읽는다.'
 printf '\n'
 cat "$bundle_dir/START_PROMPT.txt"
