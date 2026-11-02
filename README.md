@@ -1,6 +1,6 @@
 # codex-hackathon-playbook
 
-제한된 시간 안에 요구사항 확인부터 실제 구현·검증·제출 준비까지 진행하는 한국어 Codex 지침이다. SK하이닉스 AI 해커톤 준비용 개인 자료이며 공식 과제 README·운영 규정이 우선이다.
+제한된 시간 안에 요구사항 확인부터 실제 구현·검증·제출 준비까지 진행하는 한국어 Codex 지침이다.공식 과제 README·운영 규정이 우선이다.
 
 **기본 지침은 [AGENTS.md](AGENTS.md)다.** 최적화 과제이면 [OPTIMIZATION.md](OPTIMIZATION.md), 웹 UI 과제이면 [UI_ASSETS.md](UI_ASSETS.md)를 실제로 읽어라. 둘 다 해당하면 둘 다 읽고, 무관한 문서는 생략한다. UI 지침을 읽는다고 외부 라이브러리를 반드시 도입하지는 않는다. 문서 상대경로는 플레이북 위치를 기준으로 해석한다. 최초 환경 설정은 [QUICKSTART.md](QUICKSTART.md)를 따른다.
 
