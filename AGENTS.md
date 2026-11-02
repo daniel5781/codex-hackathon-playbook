@@ -16,7 +16,7 @@
 
 ## 문서 선택과 적용
 
-기본 지침은 이 AGENTS.md다. 상대경로는 플레이북 위치를 기준으로 해석하라.
+기본 지침은 이 AGENTS.md다. 기본 Clone 위치는 과제 루트의 `playbook/`이며 AGENTS.md와 시작 프롬프트를 명시적으로 읽는다([QUICKSTART.md](QUICKSTART.md)). 문서 상대경로는 실제 플레이북 위치를 기준으로 해석하고 구현·실행은 과제 루트에서 하라.
 
 - 최적화 과제이면 [OPTIMIZATION.md](OPTIMIZATION.md)를 실제로 읽어라.
 - 웹 UI 과제이면 [UI_ASSETS.md](UI_ASSETS.md)를 실제로 읽어라. 외부 라이브러리 도입은 필수가 아니다.
