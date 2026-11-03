@@ -5,13 +5,16 @@ import shutil
 import subprocess
 import tempfile
 import unittest
+from unittest.mock import patch
 
 
 REPO = Path(__file__).resolve().parents[1]
 SCRIPT = REPO / "scripts" / "setup.sh"
+BASH = shutil.which("bash")
 DOCUMENTS = ("AGENTS.md", "PLAYBOOK.md", "OPTIMIZATION.md", "QUICKSTART.md", "UI_ASSETS.md")
 
 
+@unittest.skipUnless(BASH, "Bash is required to exercise setup.sh")
 class SetupTests(unittest.TestCase):
     def setUp(self):
         self.temp = tempfile.TemporaryDirectory(prefix="playbook-test-")
@@ -19,19 +22,27 @@ class SetupTests(unittest.TestCase):
         self.root = Path(self.temp.name)
         self.task = self.root / "과제 with spaces"
         self.task.mkdir()
-        (self.task / "README.md").write_text("# Original task\nKeep this file.\n")
-        (self.task / "answer.txt").write_text("existing solution\n")
+        (self.task / "README.md").write_text("# Original task\nKeep this file.\n", encoding="utf-8")
+        (self.task / "answer.txt").write_text("existing solution\n", encoding="utf-8")
 
     def run_setup(self, *args, success=True, script=SCRIPT):
         result = subprocess.run(
-            ["bash", str(script), *map(str, args)],
-            text=True, capture_output=True, cwd=self.root,
+            [BASH, str(script), *map(str, args)],
+            text=True, encoding="utf-8", capture_output=True, cwd=self.root,
         )
         if success:
             self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
         else:
             self.assertNotEqual(result.returncode, 0)
         return result
+
+    def make_symlink(self, link, target, **kwargs):
+        try:
+            link.symlink_to(target, **kwargs)
+        except OSError as exc:
+            if getattr(exc, "winerror", None) == 1314:
+                self.skipTest("Windows did not grant the privilege required to create symlinks")
+            raise
 
     def snapshot(self):
         return {
@@ -55,20 +66,37 @@ class SetupTests(unittest.TestCase):
             (bundle / "START_PROMPT.txt").read_bytes(),
             (REPO / "prompts" / "start.txt").read_bytes(),
         )
-        self.assertIn(".codex-playbook/AGENTS.md", (self.task / "AGENTS.md").read_text())
+        self.assertIn(".codex-playbook/AGENTS.md", (self.task / "AGENTS.md").read_text(encoding="utf-8"))
         first = self.snapshot()
         self.run_setup("--apply", self.task)
         self.assertEqual(first, self.snapshot())
 
     def test_generated_bridge_links_resolve(self):
         self.run_setup("--apply", self.task)
-        bridge = (self.task / "AGENTS.md").read_text()
+        bridge = (self.task / "AGENTS.md").read_text(encoding="utf-8")
         links = re.findall(r"\[[^\]]+\]\(([^)]+)\)", bridge)
-        for name in ("AGENTS.md", "OPTIMIZATION.md", "UI_ASSETS.md"):
+        for name in ("AGENTS.md", "PLAYBOOK.md", "OPTIMIZATION.md", "UI_ASSETS.md"):
             self.assertIn(f".codex-playbook/{name}", links)
         for link in links:
             with self.subTest(link=link):
                 self.assertTrue((self.task / link).is_file())
+
+    def test_utf8_output_with_cp949_process_default(self):
+        real_popen = subprocess.Popen
+
+        def cp949_default_popen(*args, **kwargs):
+            # Simulate the Windows default only when no encoding is specified.
+            kwargs.setdefault("encoding", "cp949")
+            return real_popen(*args, **kwargs)
+
+        with patch("subprocess.Popen", side_effect=cp949_default_popen):
+            result = self.run_setup("--apply", self.task)
+            self.assertIn("대상 과제:", result.stdout)
+            self.assertIn("과제 with spaces", result.stdout)
+            bridge = (self.task / "AGENTS.md").read_text(encoding="utf-8")
+            self.assertIn("# 프로젝트 작업 지침", bridge)
+            failed = self.run_setup("--unknown", self.task, success=False)
+            self.assertIn("사용법:", failed.stderr)
 
     def test_check_writes_nothing(self):
         before = self.snapshot()
@@ -89,21 +117,21 @@ class SetupTests(unittest.TestCase):
 
     def test_existing_agents_are_preserved(self):
         for name in ("AGENTS.md", "AGENTS.override.md"):
-            (self.task / name).write_text("# Keep project-specific rules\n")
+            (self.task / name).write_text("# Keep project-specific rules\n", encoding="utf-8")
         before = self.snapshot()
         self.run_setup("--apply", self.task)
         for name in ("AGENTS.md", "AGENTS.override.md"):
             self.assertEqual(before[name], self.snapshot()[name])
 
     def test_override_alone_does_not_create_root_agents(self):
-        (self.task / "AGENTS.override.md").write_text("# Existing override\n")
+        (self.task / "AGENTS.override.md").write_text("# Existing override\n", encoding="utf-8")
         self.run_setup("--apply", self.task)
         self.assertFalse((self.task / "AGENTS.md").exists())
 
     def test_conflicting_bundle_is_untouched(self):
         bundle = self.task / ".codex-playbook"
         bundle.mkdir()
-        (bundle / "PLAYBOOK.md").write_text("custom work\n")
+        (bundle / "PLAYBOOK.md").write_text("custom work\n", encoding="utf-8")
         before = self.snapshot()
         self.run_setup("--apply", self.task, success=False)
         self.assertEqual(before, self.snapshot())
@@ -111,7 +139,7 @@ class SetupTests(unittest.TestCase):
     def test_optimization_conflict_stops_before_any_write(self):
         bundle = self.task / ".codex-playbook"
         bundle.mkdir()
-        (bundle / "OPTIMIZATION.md").write_text("# Project-specific optimization rules\n")
+        (bundle / "OPTIMIZATION.md").write_text("# Project-specific optimization rules\n", encoding="utf-8")
         before = self.snapshot()
         for mode in ("--check", "--apply"):
             with self.subTest(mode=mode):
@@ -140,7 +168,7 @@ class SetupTests(unittest.TestCase):
     def test_symlink_bundle_is_rejected(self):
         outside = self.root / "outside"
         outside.mkdir()
-        (self.task / ".codex-playbook").symlink_to(outside, target_is_directory=True)
+        self.make_symlink(self.task / ".codex-playbook", outside, target_is_directory=True)
         before = self.snapshot()
         self.run_setup("--apply", self.task, success=False)
         self.assertEqual(before, self.snapshot())
@@ -150,12 +178,12 @@ class SetupTests(unittest.TestCase):
         bundle = self.task / ".codex-playbook"
         bundle.mkdir()
         outside = self.root / "untouched.md"
-        outside.write_text("unchanged\n")
-        (bundle / "AGENTS.md").symlink_to(outside)
+        outside.write_text("unchanged\n", encoding="utf-8")
+        self.make_symlink(bundle / "AGENTS.md", outside)
         before = self.snapshot()
         self.run_setup("--apply", self.task, success=False)
         self.assertEqual(before, self.snapshot())
-        self.assertEqual(outside.read_text(), "unchanged\n")
+        self.assertEqual(outside.read_text(encoding="utf-8"), "unchanged\n")
 
     def test_missing_readme_is_rejected_without_writes(self):
         (self.task / "README.md").unlink()
