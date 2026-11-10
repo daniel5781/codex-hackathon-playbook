@@ -1,6 +1,6 @@
 # 최초 환경 설정
 
-공식 과제 README·응시 규정과 기존 지침을 먼저 확인하라. 제공된 Codex를 실행하고 `/status`·`/model`로 허용 모델·권한을 확인하라. Computer Use로 웹 IDE를 조작하지 마라.
+공식 과제 README·응시 규정과 기존 지침을 먼저 확인하라. 허용 모델·권한은 사용자가 제공된 Codex에서 `/status`·`/model`로 확인한다. Computer Use로 웹 IDE를 조작하지 마라.
 
 ## 가져오기 전 공통 확인
 
