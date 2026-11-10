@@ -1,11 +1,16 @@
 # 공정 운영 최적화 참조: 제약 상황별 모델 조각과 선행연구
 
-[PROCESS_OPTIMIZATION.md](PROCESS_OPTIMIZATION.md)의 모델 시트에 제약을 적은 뒤, 그 제약 번호로 찾아 읽는 참조 문서다. 처음부터 끝까지 읽지 말고 해당 번호의 행과 그 행이 가리키는 문헌만 읽어라.
+[PROCESS_OPTIMIZATION.md](PROCESS_OPTIMIZATION.md)의 모델 시트를 만들 때 찾아 읽는 참조 문서다. 처음부터 끝까지 읽지 말고 아래 순서로 필요한 곳만 읽어라.
+
+1. 1절의 번호표를 훑어 지문에 해당하는 번호를 고른다. C10 이후의 번호는 이 표에만 있다.
+2. 3절의 조합 표에서 먼저 볼 문헌을 한두 개 고른다.
+3. 2절에서 그 문헌의 요약만 읽는다. 번호표의 문헌 열은 그 제약을 다룬 곳의 색인이고, 전부 읽으라는 뜻이 아니다.
+4. 문헌을 근거로 적기 전에 4절(세 줄)을 읽는다.
 
 - 과제 지문이 항상 우선한다. 문헌은 모델의 방향과 선택의 근거로만 쓰고, 문헌의 수치(처리시간, 대기 한도, 가동률 등)를 과제의 입력으로 쓰지 마라.
 - 문헌마다 정의가 다른 것(특히 Q-Time의 기준 사건)은 지문과 예시 계산으로 확정하라.
 - 참조했으면 모델 시트와 보고에 "참조: C5·C17, L1"처럼 번호를 적어라. 읽지 않은 문헌을 근거로 적지 마라.
-- 열람 수준은 2026-11-10 기준이다. (전문)은 본문을 직접 읽고 확인한 것, (초록)은 초록만 확인한 것이다. 시험 환경에서 링크가 열리지 않으면 아래 요약만 쓰고 그렇게 밝혀라.
+- 열람 수준은 2026-11-10 기준이다. (전문)은 본문을 직접 읽고 확인한 것, (원문 대조)는 여기 적은 내용을 원문 PDF와 대조한 것, (초록)은 초록만 확인한 것, (공식)은 제공자의 공식 문서다. 시험 환경에서 링크가 열리지 않으면 아래 요약만 쓰고 그렇게 밝혀라.
 
 ## 1. 제약 상황 번호표
 
@@ -87,7 +92,7 @@ C1~C9의 식과 코드 뼈대는 PROCESS_OPTIMIZATION.md 3절에 있다. C10부�
 **L10. Google OR-Tools 공식 문서와 예제 (공식)** — [잡샵](https://developers.google.com/optimization/scheduling/job_shop), [유연 잡샵 예제](https://github.com/google/or-tools/blob/stable/examples/python/flexible_job_shop_sat.py), [일정 모델링 문서](https://github.com/google/or-tools/blob/stable/ortools/sat/docs/scheduling.md), [솔버 상태](https://developers.google.com/optimization/cp/cp_solver)
 - 가져올 것: 선후관계와 장비별 겹침 금지의 기본형, 대안 장비마다 선택 구간을 두는 형태, 솔버 종료 상태의 뜻.
 
-**L11. Denton 외 2006, Interfaces, "IBM Solves a Mixed-Integer Program to Optimize Its Semiconductor Supply Chain" (전문)**
+**L11. Denton 외 2006, Interfaces, "IBM Solves a Mixed-Integer Program to Optimize Its Semiconductor Supply Chain" (전문)** — [서지](https://ideas.repec.org/a/inm/orinte/v36y2006i5p386-399.html)
 - 대상: 일정이 아니라 수량 배분(생산·공급 계획)이다.
 - 가져올 것: 큰 문제는 MIP와 휴리스틱을 섞어 풀었고 최적을 보장하지 않는다. 보고된 성과는 계획 엔진과 업무 절차 변경을 합친 것이다.
 
