@@ -8,7 +8,7 @@
 동작: 원문·실제 입력을 조사해 문제 종류와 모델 시트(비최적화면 요구사항 표)를 제시하고, 사용자 해석과 대조해 문제 정의를 합의한다. 아직 구현하지 않는다.
 
 [구현 진행]
-읽을 곳: PROCESS_OPTIMIZATION.md 2절의 승인 기준, PLAYBOOK.md "작업 흐름"·"알고리즘과 UI 개발 순서"·"작업 기록과 최종 보고", VERIFICATION.md. 최적화면 OPTIMIZATION.md 3~5절과 PROCESS_OPTIMIZATION.md 4~6절, 일정·배정이면 3절도 읽는다.
+읽을 곳: PROCESS_OPTIMIZATION.md 2절의 승인 기준, PLAYBOOK.md "작업 흐름"·"알고리즘과 UI 개발 순서"·"작업 기록과 최종 보고", VERIFICATION.md. 최적화면 OPTIMIZATION.md 3~5절과 PROCESS_OPTIMIZATION.md 4~6절(5절의 다목적·동점 규칙 포함)을 읽고, 일정·배정이면 3절도 읽는다.
 동작: 승인된 조건으로 작은 실제 동작부터 구현·검증한다. 핵심 가정의 미확정 처리는 PROCESS_OPTIMIZATION 2절을 따르고, 긴 계산은 OPTIMIZATION 8절을 따른다.
 
 [검증 보고]
