@@ -13,7 +13,7 @@ SCRIPT = REPO / "scripts" / "setup.sh"
 BASH = shutil.which("bash")
 DOCUMENTS = (
     "AGENTS.md", "PLAYBOOK.md", "OPTIMIZATION.md", "PROCESS_OPTIMIZATION.md",
-    "QUICKSTART.md", "UI_ASSETS.md",
+    "PROCESS_REFERENCE.md", "QUICKSTART.md", "UI_ASSETS.md",
 )
 # 배치된 파일 이름 -> prompts/ 아래 원본 이름
 PROMPTS = {

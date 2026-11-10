@@ -34,8 +34,8 @@ done
 $has_readme || fail 'README가 있는 실제 과제 루트를 지정하라. README를 임의로 생성하지 마라.'
 
 bundle_dir="$task_dir/.codex-playbook"
-sources=("$source_dir/AGENTS.md" "$source_dir/PLAYBOOK.md" "$source_dir/OPTIMIZATION.md" "$source_dir/PROCESS_OPTIMIZATION.md" "$source_dir/QUICKSTART.md" "$source_dir/UI_ASSETS.md" "$source_dir/prompts/start.txt" "$source_dir/prompts/process-optimization.txt")
-names=('AGENTS.md' 'PLAYBOOK.md' 'OPTIMIZATION.md' 'PROCESS_OPTIMIZATION.md' 'QUICKSTART.md' 'UI_ASSETS.md' 'START_PROMPT.txt' 'PROCESS_OPTIMIZATION_PROMPTS.txt')
+sources=("$source_dir/AGENTS.md" "$source_dir/PLAYBOOK.md" "$source_dir/OPTIMIZATION.md" "$source_dir/PROCESS_OPTIMIZATION.md" "$source_dir/PROCESS_REFERENCE.md" "$source_dir/QUICKSTART.md" "$source_dir/UI_ASSETS.md" "$source_dir/prompts/start.txt" "$source_dir/prompts/process-optimization.txt")
+names=('AGENTS.md' 'PLAYBOOK.md' 'OPTIMIZATION.md' 'PROCESS_OPTIMIZATION.md' 'PROCESS_REFERENCE.md' 'QUICKSTART.md' 'UI_ASSETS.md' 'START_PROMPT.txt' 'PROCESS_OPTIMIZATION_PROMPTS.txt')
 
 # 충돌을 먼저 검사하여 기존 파일을 덮어쓰지 않는다.
 [ ! -L "$bundle_dir" ] || fail '.codex-playbook이 심볼릭 링크다. 기존 경로를 보존하고 수동으로 확인하라.'
