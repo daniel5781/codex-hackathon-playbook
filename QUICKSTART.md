@@ -62,6 +62,7 @@ bash playbook/scripts/setup.sh --apply .
     ├── PROCESS_REFERENCE.md
     ├── QUICKSTART.md
     ├── UI_ASSETS.md
+    ├── VERIFICATION.md
     ├── START_PROMPT.txt
     └── PROCESS_OPTIMIZATION_PROMPTS.txt
 ```

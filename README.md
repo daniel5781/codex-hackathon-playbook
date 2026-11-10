@@ -11,6 +11,7 @@
 | [PROCESS_OPTIMIZATION.md](PROCESS_OPTIMIZATION.md) | 공정 운영 최적화(로트 일정·장비 배정 등) 과제일 때만: 지문을 모델 시트로 옮기기·일정 문제 구성 규칙·독립 검증·솔버 상태 보고 |
 | [PROCESS_REFERENCE.md](PROCESS_REFERENCE.md) | 모델 시트의 제약 번호로 찾아 읽는 참조: 제약 상황별 모델 조각·확인할 것·선행연구 |
 | [PLAYBOOK.md](PLAYBOOK.md) | 기본 문서: 조사·합의·승인·구현·검증·공통 기록·개발 이해 지원 |
+| [VERIFICATION.md](VERIFICATION.md) | 구현 승인 뒤 과제 종류와 무관하게: 지문에서 제출물까지의 검증 고리·보고에 쓰는 말의 근거·검증 기록표 |
 | [UI_ASSETS.md](UI_ASSETS.md) | 대시보드·웹 UI 과제일 때만 |
 | [QUICKSTART.md](QUICKSTART.md) | 가져오기·메인/읽기 전용 검토 세션 시작·제출 확인 |
 | [prompts/start.txt](prompts/start.txt) | 플레이북 경로를 준비한 뒤 사용할 짧은 시작 요청 |

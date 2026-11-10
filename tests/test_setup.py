@@ -13,7 +13,7 @@ SCRIPT = REPO / "scripts" / "setup.sh"
 BASH = shutil.which("bash")
 DOCUMENTS = (
     "AGENTS.md", "PLAYBOOK.md", "OPTIMIZATION.md", "PROCESS_OPTIMIZATION.md",
-    "PROCESS_REFERENCE.md", "QUICKSTART.md", "UI_ASSETS.md",
+    "PROCESS_REFERENCE.md", "QUICKSTART.md", "UI_ASSETS.md", "VERIFICATION.md",
 )
 # 배치된 파일 이름 -> prompts/ 아래 원본 이름
 PROMPTS = {
@@ -87,7 +87,10 @@ class SetupTests(unittest.TestCase):
         self.run_setup("--apply", self.task)
         bridge = (self.task / "AGENTS.md").read_text(encoding="utf-8")
         links = re.findall(r"\[[^\]]+\]\(([^)]+)\)", bridge)
-        for name in ("AGENTS.md", "PLAYBOOK.md", "OPTIMIZATION.md", "PROCESS_OPTIMIZATION.md", "UI_ASSETS.md"):
+        for name in (
+            "AGENTS.md", "PLAYBOOK.md", "OPTIMIZATION.md", "PROCESS_OPTIMIZATION.md",
+            "UI_ASSETS.md", "VERIFICATION.md",
+        ):
             self.assertIn(f".codex-playbook/{name}", links)
         for link in links:
             with self.subTest(link=link):
