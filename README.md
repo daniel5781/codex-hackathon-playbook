@@ -15,7 +15,7 @@
 | [UI_ASSETS.md](UI_ASSETS.md) | 대시보드·웹 UI 과제일 때만 |
 | [QUICKSTART.md](QUICKSTART.md) | 가져오기·메인/읽기 전용 검토 세션 시작·제출 확인 |
 | [prompts/start.txt](prompts/start.txt) | 플레이북 경로를 준비한 뒤 사용할 짧은 시작 요청 |
-| [prompts/process-optimization.txt](prompts/process-optimization.txt) | 단계별로 골라 쓰는 요청 문구(최적화 과제 중심, 기본 흐름 넷) |
+| [prompts/process-optimization.txt](prompts/process-optimization.txt) | 짧은 호출과 필요한 문서 절의 연결표(최적화 과제 중심) |
 | [scripts/setup.sh](scripts/setup.sh) | 선택적 지침 배치. 기본은 점검만, `--apply`일 때만 파일 생성 |
 | [tests/test_setup.py](tests/test_setup.py) | 기존 파일 보존·재실행·충돌 검증 |
 
