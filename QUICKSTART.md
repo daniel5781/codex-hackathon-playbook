@@ -58,9 +58,11 @@ bash playbook/scripts/setup.sh --apply .
     ├── AGENTS.md
     ├── PLAYBOOK.md
     ├── OPTIMIZATION.md
+    ├── PROCESS_OPTIMIZATION.md
     ├── QUICKSTART.md
     ├── UI_ASSETS.md
-    └── START_PROMPT.txt
+    ├── START_PROMPT.txt
+    └── PROCESS_OPTIMIZATION_PROMPTS.txt
 ```
 
 기존 README·지침은 보존한다. 같은 파일은 재실행해도 유지하며 다른 내용·심볼릭 링크 충돌은 쓰기 전에 중단한다. 의존성 설치·전역 설정 변경·Git 작업은 하지 않는다. 배치 후에는 `.codex-playbook/`을 기준으로 AGENTS·PLAYBOOK을 기본으로 읽고 보조 문서는 AGENTS 기준으로 선택한다. Git 정보가 없는 복사본은 원본과의 대응을 확인할 수 없으면 버전 미확인으로 기록한다.

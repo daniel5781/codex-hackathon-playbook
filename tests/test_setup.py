@@ -11,7 +11,15 @@ from unittest.mock import patch
 REPO = Path(__file__).resolve().parents[1]
 SCRIPT = REPO / "scripts" / "setup.sh"
 BASH = shutil.which("bash")
-DOCUMENTS = ("AGENTS.md", "PLAYBOOK.md", "OPTIMIZATION.md", "QUICKSTART.md", "UI_ASSETS.md")
+DOCUMENTS = (
+    "AGENTS.md", "PLAYBOOK.md", "OPTIMIZATION.md", "PROCESS_OPTIMIZATION.md",
+    "QUICKSTART.md", "UI_ASSETS.md",
+)
+# 배치된 파일 이름 -> prompts/ 아래 원본 이름
+PROMPTS = {
+    "START_PROMPT.txt": "start.txt",
+    "PROCESS_OPTIMIZATION_PROMPTS.txt": "process-optimization.txt",
+}
 
 
 @unittest.skipUnless(BASH, "Bash is required to exercise setup.sh")
@@ -62,9 +70,13 @@ class SetupTests(unittest.TestCase):
         bundle = self.task / ".codex-playbook"
         for name in DOCUMENTS:
             self.assertEqual((bundle / name).read_bytes(), (REPO / name).read_bytes())
+        for placed, original_name in PROMPTS.items():
+            self.assertEqual(
+                (bundle / placed).read_bytes(),
+                (REPO / "prompts" / original_name).read_bytes(),
+            )
         self.assertEqual(
-            (bundle / "START_PROMPT.txt").read_bytes(),
-            (REPO / "prompts" / "start.txt").read_bytes(),
+            sorted(p.name for p in bundle.iterdir()), sorted((*DOCUMENTS, *PROMPTS)),
         )
         self.assertIn(".codex-playbook/AGENTS.md", (self.task / "AGENTS.md").read_text(encoding="utf-8"))
         first = self.snapshot()
@@ -75,7 +87,7 @@ class SetupTests(unittest.TestCase):
         self.run_setup("--apply", self.task)
         bridge = (self.task / "AGENTS.md").read_text(encoding="utf-8")
         links = re.findall(r"\[[^\]]+\]\(([^)]+)\)", bridge)
-        for name in ("AGENTS.md", "PLAYBOOK.md", "OPTIMIZATION.md", "UI_ASSETS.md"):
+        for name in ("AGENTS.md", "PLAYBOOK.md", "OPTIMIZATION.md", "PROCESS_OPTIMIZATION.md", "UI_ASSETS.md"):
             self.assertIn(f".codex-playbook/{name}", links)
         for link in links:
             with self.subTest(link=link):
@@ -155,7 +167,8 @@ class SetupTests(unittest.TestCase):
         for name in DOCUMENTS:
             if name != "OPTIMIZATION.md":
                 shutil.copy2(REPO / name, source / name)
-        shutil.copy2(REPO / "prompts" / "start.txt", source / "prompts" / "start.txt")
+        for original_name in PROMPTS.values():
+            shutil.copy2(REPO / "prompts" / original_name, source / "prompts" / original_name)
         before = self.snapshot()
         for mode in ("--check", "--apply"):
             with self.subTest(mode=mode):

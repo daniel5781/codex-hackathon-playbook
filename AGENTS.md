@@ -18,8 +18,9 @@
 이 AGENTS.md와 [PLAYBOOK.md](PLAYBOOK.md)는 기본으로 실제 읽어라. 문서 상대경로는 실제 플레이북 위치를 기준으로 해석한다. 운영·공통 기록은 PLAYBOOK, 가져오기·세션 시작·제출은 [QUICKSTART.md](QUICKSTART.md)를 따른다.
 
 - 최적화 과제이면 [OPTIMIZATION.md](OPTIMIZATION.md)를 실제로 읽어라.
+- 그 최적화가 공정 운영(로트 일정·장비 배정·생산량 배분·검사 대상 선택)이면 [PROCESS_OPTIMIZATION.md](PROCESS_OPTIMIZATION.md)도 실제로 읽어라.
 - 웹 UI 과제이면 [UI_ASSETS.md](UI_ASSETS.md)를 실제로 읽어라. 외부 라이브러리 도입은 필수가 아니다.
-- 둘 다 해당하면 둘 다 읽고, 무관한 문서는 생략하라.
+- 여러 개가 해당하면 모두 읽고, 무관한 문서는 생략하라.
 
 기본 문서를 읽은 뒤 필요한 내용을 다시 찾을 때의 절 안내:
 - [PLAYBOOK.md](PLAYBOOK.md): 복잡한 구현·디버깅·검증, 또는 “구조 설명”·“변경 설명”·“이해 점검” 요청.
