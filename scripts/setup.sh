@@ -34,8 +34,8 @@ done
 $has_readme || fail 'README가 있는 실제 과제 루트를 지정하라. README를 임의로 생성하지 마라.'
 
 bundle_dir="$task_dir/.codex-playbook"
-sources=("$source_dir/AGENTS.md" "$source_dir/PLAYBOOK.md" "$source_dir/OPTIMIZATION.md" "$source_dir/PROCESS_OPTIMIZATION.md" "$source_dir/PROCESS_REFERENCE.md" "$source_dir/QUICKSTART.md" "$source_dir/UI_ASSETS.md" "$source_dir/VERIFICATION.md" "$source_dir/prompts/start.txt" "$source_dir/prompts/process-optimization.txt")
-names=('AGENTS.md' 'PLAYBOOK.md' 'OPTIMIZATION.md' 'PROCESS_OPTIMIZATION.md' 'PROCESS_REFERENCE.md' 'QUICKSTART.md' 'UI_ASSETS.md' 'VERIFICATION.md' 'START_PROMPT.txt' 'PROCESS_OPTIMIZATION_PROMPTS.txt')
+sources=("$source_dir/AGENTS.md" "$source_dir/PLAYBOOK.md" "$source_dir/OPTIMIZATION.md" "$source_dir/PROCESS_OPTIMIZATION.md" "$source_dir/PROCESS_REFERENCE.md" "$source_dir/COMPANY_ANALYSIS.md" "$source_dir/QUICKSTART.md" "$source_dir/UI_ASSETS.md" "$source_dir/VERIFICATION.md" "$source_dir/prompts/start.txt" "$source_dir/prompts/process-optimization.txt" "$source_dir/prompts/company-analysis.txt")
+names=('AGENTS.md' 'PLAYBOOK.md' 'OPTIMIZATION.md' 'PROCESS_OPTIMIZATION.md' 'PROCESS_REFERENCE.md' 'COMPANY_ANALYSIS.md' 'QUICKSTART.md' 'UI_ASSETS.md' 'VERIFICATION.md' 'START_PROMPT.txt' 'PROCESS_OPTIMIZATION_PROMPTS.txt' 'COMPANY_ANALYSIS_PROMPTS.txt')
 
 # 충돌을 먼저 검사하여 기존 파일을 덮어쓰지 않는다.
 [ ! -L "$bundle_dir" ] || fail '.codex-playbook이 심볼릭 링크다. 기존 경로를 보존하고 수동으로 확인하라.'
@@ -89,6 +89,7 @@ if $create_bridge; then
 - 과제의 공식 요구사항, README와 기존 디렉터리별 지침을 우선하라.
 - [.codex-playbook/AGENTS.md](.codex-playbook/AGENTS.md)와 [.codex-playbook/PLAYBOOK.md](.codex-playbook/PLAYBOOK.md)를 모두 읽어라.
 - 최적화 과제는 [.codex-playbook/OPTIMIZATION.md](.codex-playbook/OPTIMIZATION.md)와 [.codex-playbook/PROCESS_OPTIMIZATION.md](.codex-playbook/PROCESS_OPTIMIZATION.md)를, 웹 UI 과제는 [.codex-playbook/UI_ASSETS.md](.codex-playbook/UI_ASSETS.md)를 실제로 읽어라. 문서 선택은 AGENTS.md, 운영·공통 기록은 PLAYBOOK.md를 따른다.
+- 기업 정보·거래관계 분석 Agent 과제는 [.codex-playbook/COMPANY_ANALYSIS.md](.codex-playbook/COMPANY_ANALYSIS.md)를 실제로 읽어라.
 - 구현 승인을 받으면 구현을 시작하기 전에 [.codex-playbook/VERIFICATION.md](.codex-playbook/VERIFICATION.md)를 실제로 읽어라.
 - 플레이북 문서의 상대경로는 `.codex-playbook/`을 기준으로 해석하라.
 - Computer Use를 절대 사용하지 마라.

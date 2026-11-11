@@ -19,11 +19,14 @@
 
 - 최적화 과제이면 [OPTIMIZATION.md](OPTIMIZATION.md)와 [PROCESS_OPTIMIZATION.md](PROCESS_OPTIMIZATION.md)를 실제로 읽어라. PROCESS_OPTIMIZATION의 3절은 일정·배정 문제에만 적용한다.
 - 최적화가 아니어도 지문에 수치 기준이나 판정 규칙이 있으면 PROCESS_OPTIMIZATION.md의 2절만 읽어 적용하라.
+- 기업 정보·거래관계 분석 Agent 과제이면 [COMPANY_ANALYSIS.md](COMPANY_ANALYSIS.md)를 실제로 읽어라. 주제명만으로 기능·데이터·기술 스택을 확정하지 마라.
 - 웹 UI 과제이면 [UI_ASSETS.md](UI_ASSETS.md)를 실제로 읽어라. 외부 라이브러리 도입은 필수가 아니다.
 - 구현 승인을 받으면 과제 종류와 관계없이 구현을 시작하기 전에 [VERIFICATION.md](VERIFICATION.md)를 실제로 읽어라. 읽기 전용 검토 세션은 검증을 검토할 때 읽는다.
 - 여러 개가 해당하면 모두 읽고, 무관한 문서는 생략하라. 읽은 문서가 가리키는 참조 문서(PROCESS_REFERENCE.md)는 그 문서의 지시대로 필요한 곳만 읽는다.
 
 **짧은 호출:** `공정 문제 같이 보자` 같은 요청은 `prompts/process-optimization.txt`(선택적 배치에서는 `PROCESS_OPTIMIZATION_PROMPTS.txt`)의 해당 항목으로 연결한다. 사용자가 긴 문구를 붙여 넣을 필요는 없다. 기본·조건부 문서의 최초 확인은 위 기준을 따르고, 후속 호출은 연결된 절만 다시 읽어 처리하라.
+
+기업 정보·거래관계 분석에서는 `기업 분석 문제 같이 보자` 같은 요청을 `prompts/company-analysis.txt`(선택적 배치에서는 `COMPANY_ANALYSIS_PROMPTS.txt`)의 해당 항목으로 연결한다. `구현 진행`·`검증 보고`·`제출 점검`도 현재 과제에 맞는 연결표를 사용한다.
 
 기본 문서를 읽은 뒤 필요한 내용을 다시 찾을 때의 절 안내:
 - [PLAYBOOK.md](PLAYBOOK.md): 복잡한 구현·디버깅·검증, 또는 “구조 설명”·“변경 설명”·“이해 점검” 요청.

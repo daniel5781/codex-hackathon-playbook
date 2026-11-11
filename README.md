@@ -10,12 +10,14 @@
 | [OPTIMIZATION.md](OPTIMIZATION.md) | 최적화 과제에서 실제로 읽을 문제 분해·기준해·검증·개선 절차와 계산 시간 예산(8절) |
 | [PROCESS_OPTIMIZATION.md](PROCESS_OPTIMIZATION.md) | 최적화 과제일 때: 문제 종류 가르기·지문을 모델 시트로 옮기기·솔버 상태 보고. 3절(일정 문제 구성 규칙)은 일정·배정 문제에만 |
 | [PROCESS_REFERENCE.md](PROCESS_REFERENCE.md) | 모델 시트의 제약 번호로 찾아 읽는 참조: 제약 상황별 모델 조각·확인할 것·선행연구 |
+| [COMPANY_ANALYSIS.md](COMPANY_ANALYSIS.md) | 기업 정보·거래관계 분석 Agent 과제일 때: 기업 식별·관계 의미·계산·출처·도구 실행·검증 |
 | [PLAYBOOK.md](PLAYBOOK.md) | 기본 문서: 조사·합의·승인·구현·검증·공통 기록·개발 이해 지원 |
 | [VERIFICATION.md](VERIFICATION.md) | 구현 승인 뒤 과제 종류와 무관하게: 지문에서 제출물까지의 검증 고리·보고에 쓰는 말의 근거·검증 기록표 |
 | [UI_ASSETS.md](UI_ASSETS.md) | 대시보드·웹 UI 과제일 때만 |
 | [QUICKSTART.md](QUICKSTART.md) | 가져오기·메인/읽기 전용 검토 세션 시작·제출 확인 |
 | [prompts/start.txt](prompts/start.txt) | 플레이북 경로를 준비한 뒤 사용할 짧은 시작 요청 |
 | [prompts/process-optimization.txt](prompts/process-optimization.txt) | 짧은 호출과 필요한 문서 절의 연결표(최적화 과제 중심) |
+| [prompts/company-analysis.txt](prompts/company-analysis.txt) | 기업 분석 과제의 조사·구현 승인·데이터 확인·검증·제출 호출 연결표 |
 | [scripts/setup.sh](scripts/setup.sh) | 선택적 지침 배치. 기본은 점검만, `--apply`일 때만 파일 생성 |
 | [tests/test_setup.py](tests/test_setup.py) | 기존 파일 보존·재실행·충돌 검증 |
 
@@ -34,6 +36,8 @@ Codex는 시작할 때 전역 지침과 프로젝트 루트(보통 Git 루트)�
 설치 스크립트는 기존 루트 지침이 없을 때만 연결용 `AGENTS.md`를 만든다. 사용한 경로·버전과 검증 근거는 PLAYBOOK의 공통 형식으로 보고한다. 제공 버전·설정 차이는 확인하되 업데이트나 전역 설정 변경으로 해결하지 마라.
 
 ## 개발 중 요청
+
+기업 정보·거래관계 분석 과제는 `기업 분석 문제 같이 보자`로 시작한다. 공식 요구사항과 실제 입력을 먼저 조사하고, 문제 정의 합의와 구현 승인 뒤 기업 조회·거래 집계·근거가 있는 응답을 작은 흐름부터 연결한다. 상세 규칙은 [COMPANY_ANALYSIS.md](COMPANY_ANALYSIS.md)를 따른다.
 
 `구조 설명`은 5줄 이내의 구조·데이터 흐름·기술 선택, `변경 설명`은 직전 주요 변경, `이해 점검`은 질문 1개와 답변 후 평가를 제공한다. 자세한 규칙은 PLAYBOOK의 해당 절에 있다. AI 금지 후속 서술형에서는 사용하지 마라.
 
